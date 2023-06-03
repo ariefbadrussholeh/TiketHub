@@ -47,6 +47,10 @@
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
+.box-shadow-3 {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
 .circle-1 {
   width: 460px;
   height: 460px;

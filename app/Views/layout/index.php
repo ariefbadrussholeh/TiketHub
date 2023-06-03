@@ -40,7 +40,7 @@
     <div class="navbar-end">
     <?php if (logged_in()) : ?>
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar online">
           <div class="w-10 rounded-full">
             <img src="<?= base_url(); ?>img/photo-1534528741775-53994a69daeb.jpg" />
           </div>

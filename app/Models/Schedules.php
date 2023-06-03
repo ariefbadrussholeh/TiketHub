@@ -83,7 +83,7 @@ class Schedules extends Model
 
     public function findAllJoined(){
         $builder = $this->table('schedules')
-            ->select('transportations.operator, routes.origin_destination, schedules.*')
+            ->select('transportations.operator, transportations.category, transportations.type, routes.origin_destination, schedules.*')
             ->join('routes', 'routes.id = schedules.route_id')
             ->join('transportations', 'transportations.id = schedules.transportation_id')
             ->orderBy('schedules.updated_at', 'DESC')
@@ -94,11 +94,12 @@ class Schedules extends Model
 
     public function search($keyword){
         $builder = $this->table('schedules')
-            ->select('transportations.operator, routes.origin_destination, schedules.*')
+            ->select('transportations.operator, transportations.category, transportations.type, routes.origin_destination, schedules.*')
             ->join('routes', 'routes.id = schedules.route_id')
             ->join('transportations', 'transportations.id = schedules.transportation_id')
             ->like('operator', $keyword)
             ->orLike('origin_destination', $keyword)
+            ->orLike('category', $keyword)
             ->orWhere('time', $keyword)
             ->orWhere('date', $keyword)
             ->orWhere('price', $keyword)

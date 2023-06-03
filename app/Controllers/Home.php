@@ -41,6 +41,19 @@ class Home extends BaseController
 
     public function cari_tiket()
     { 
-        return view('cari_tiket.php');
+        $keyword = $this->request->getVar('keyword');
+        if ($keyword) {
+            $schedules = $this->schedulesModel->search($keyword)->getResult('array');
+        } else {
+            $schedules = $this->schedulesModel->findAllJoined()->getResult('array');
+        }
+
+        $data = [
+            'data' => $schedules,
+        ];
+
+        // dd($data);
+
+        return view('cari_tiket.php', $data);
     }
 }
