@@ -31,6 +31,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/',           'Home::index');
 $routes->get('/cari-tiket', 'Home::cari_tiket');
+$routes->get('/pesan-tiket/(:num)/(:num)','Home::pesan_tiket/$1/$2');
 $routes->get('/admin',      'Home::admin_dashboard', ['filter' => 'role:admin']);
 
 $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {

@@ -23,7 +23,7 @@ class Tickets extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    // protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -38,4 +38,32 @@ class Tickets extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public $validationRules = [
+        'user_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Anda belum login',
+            ]
+        ],
+        'schedule_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Pilih jadwal',
+            ]
+        ],
+        'card_identity' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'NIK harus diisi',
+            ]
+        ],
+        'birth_date' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Tanggal lahir harus diisi',
+            ]
+        ],
+    ];
+
 }
