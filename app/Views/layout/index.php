@@ -16,6 +16,8 @@
   <title>TiketHub | <?= $this->renderSection('title') ?></title>
 </head>
 <body>
+<?= view('\App\Views\layout\_message_block') ?>
+
   <div class="navbar bg-primary text-white">
     <div class="navbar-start">
       <div class="dropdown">
@@ -24,8 +26,8 @@
         </label>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
           <li><a href="/">Home</a></li>
-          <li><a href="cari-tiket">Cari Tiket</a></li>
-          <li><a href="cek-tiket">Cek Tiket</a></li>
+          <li><a href="/cari-tiket">Cari Tiket</a></li>
+          <li><a href="/cek-tiket">Cek Tiket</a></li>
         </ul>
       </div>
       <img class="h-10 ml-6" src="<?= base_url() ?>img/logo-2.png" alt="" class="logo">
@@ -33,8 +35,8 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         <li><a href="/">Home</a></li>
-        <li><a href="cari-tiket">Cari Tiket</a></li>
-        <li><a href="cek-tiket">Cek Tiket</a></li>
+        <li><a href="/cari-tiket">Cari Tiket</a></li>
+        <li><a href="/cek-tiket">Cek Tiket</a></li>
       </ul>
     </div>
     <div class="navbar-end">

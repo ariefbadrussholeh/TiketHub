@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
 use App\Models\Routes;
 use App\Models\Schedules;
 use App\Models\Tickets;
 use App\Models\Transportations;
 
-class Home extends BaseController
+class UserController extends BaseController
 {
     protected $schedulesModel;
     protected $transportationsModel;
@@ -57,38 +58,55 @@ class Home extends BaseController
         return view('cari_tiket.php', $data);
     }
 
-    public function pesan_tiket($id_user,$id_schedules)
+    public function pesan_tiket($id)
     {
-        // id = $this->request->getVar('id');
-        $data = $this->schedulesModel->getScheduleById($id_schedules);
-        
+        $data = [
+            'data'  =>   $this->schedulesModel->findAllJoinedWhere($id)->getResult('array')[0],
+        ];
 
-        return view('pesan_tiket.php', ['data' => $data,
-                                        'id_user' => $id_user]);
+        // dd($data['data']);
+
+        return view('pesan_tiket.php', $data);
     }
 
-    public function save($id_user,$id_schedules)
-    {   
+    public function save()
+    {  
         if(!$this->validate($this->ticketsModel->getValidationRules()))
         {
             $validation = $this->validator->getErrors();
             
-            return redirect()->to('/pesan-tiket')->withInput()->with('validation', $validation);
+            return redirect()->to("/pesan-tiket" . "/" . $this->request->getVar('schedule_id'))->withInput()->with('validation', $validation);
         }
 
         $this->ticketsModel->save([
-            'user_id'  => $id_user,
-            'schedule_id'  => $id_schedules,
-            'full_name'      => $this->request->getVar('type'),
-            'phone_number'  => $this->request->getVar('capacity'),
-            'card_identity'  => $this->request->getVar('capacity'),
-            'birth_date'  => $this->request->getVar('capacity'),
+            'user_id'  => user_id(),
+            'schedule_id'  => $this->request->getVar('schedule_id'),
+            'full_name'      => $this->request->getVar('full_name'),
+            'phone_number'  => $this->request->getVar('phone_number'),
+            'card_identity'  => $this->request->getVar('card_identity'),
+            'birth_date'  => $this->request->getVar('birth_date'),
         ]);
         
         session()->setFlashdata('message', $this->request->getVar('message'));
 
-        return redirect()->to('/index.php');
+        return redirect()->to('/cek-tiket');
+    }
+
+    public function cek_tiket()
+    {
+        $data = [
+            'data'  => $this->ticketsModel->getTicketById(user_id())->getResult('array'),
+        ];
+
+        return view('cek_tiket.php', $data);
+    }
+
+    public function detail_tiket($id)
+    {
+        $data = [
+            'data'  => $this->ticketsModel->getSingleTicketById($id)->getResult('array')[0],
+        ];
+
+        return view('detail_tiket.php', $data);
     }
 }
-
-// 'user_id', 'schedule_id', 'payment_status', 'full_name', 'phone_number', 'card_identity', 'birth_date'

@@ -1,5 +1,9 @@
 <?= $this->extend('layout/index.php') ?>
 
+<?= $this->section('title') ?>
+  Cari Tiket
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <section class="py-8 px-16">
     <div class=" min-h-screen box-shadow-1 rounded-2xl w-full p-8">
@@ -81,12 +85,8 @@
                             <span class="ml-2"><?= $row['duration_trip'] ?></span>
                         </li>
                     </ul>
-                    <div class="card-actions justify-end">
-                        <form action="/pesan-tiket/<?= user_id() ?>/<?=$row['id'] ?>">
-                            <!-- <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                            <input type="hidden" name="user_id" value="<?= user_id() ?>"> -->
-                            <button class="btn btn-primary">Pesan</button>
-                        </form>
+                    <div class="card-actions justify-end">    
+                        <a href="/pesan-tiket/<?= $row['id'] ?>" class="btn btn-primary">Pesan</a>
                     </div>
                 </div>
             </div>

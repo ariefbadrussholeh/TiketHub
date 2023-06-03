@@ -29,12 +29,15 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/',           'Home::index');
-$routes->get('/cari-tiket', 'Home::cari_tiket');
-$routes->get('/pesan-tiket/(:num)/(:num)','Home::pesan_tiket/$1/$2');
-$routes->get('/admin',      'Home::admin_dashboard', ['filter' => 'role:admin']);
+$routes->get('/',           'UserController::index');
+$routes->get('/admin',      'UserController::admin_dashboard', ['filter' => 'loginAndRole:admin']);
+$routes->get('/cari-tiket', 'UserController::cari_tiket');
+$routes->get('/pesan-tiket/(:num)','UserController::pesan_tiket/$1', ['filter' => 'login']);
+$routes->post('/pesan-tiket/(:num)','UserController::save', ['filter' => 'login']);
+$routes->get('/cek-tiket','UserController::cek_tiket', ['filter' => 'login']);
+$routes->get('/cek-tiket/(:num)/detail','UserController::detail_tiket/$1', ['filter' => 'login']);
 
-$routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
+$routes->group('admin', ['filter' => 'loginAndRole:admin'], function ($routes) {
     // Admin Transportations
     $routes->get('transportasi', 'AdminTransportationsController::index');
     $routes->get('transportasi/tambah', 'AdminTransportationsController::tambah');

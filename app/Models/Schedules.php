@@ -92,6 +92,17 @@ class Schedules extends Model
         return $builder;
     }
 
+    public function findAllJoinedWhere($id){
+        $builder = $this->table('schedules')
+            ->select('transportations.operator, transportations.category, transportations.type, routes.origin_destination, schedules.*')
+            ->join('routes', 'routes.id = schedules.route_id')
+            ->join('transportations', 'transportations.id = schedules.transportation_id')
+            ->where('schedules.id', $id)
+            ->get();
+            
+        return $builder;
+    }
+
     public function search($keyword){
         $builder = $this->table('schedules')
             ->select('transportations.operator, transportations.category, transportations.type, routes.origin_destination, schedules.*')

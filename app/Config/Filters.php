@@ -28,6 +28,10 @@ class Filters extends BaseConfig
         'login'         => LoginFilter::class,
         'role'          => RoleFilter::class,
         'permission'    => PermissionModel::class,
+        'loginAndRole'  => [
+            LoginFilter::class,
+            RoleFilter::class,
+        ]
     ];
 
     /**
@@ -39,7 +43,6 @@ class Filters extends BaseConfig
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-            'login',
         ],
         'after' => [
             'toolbar',

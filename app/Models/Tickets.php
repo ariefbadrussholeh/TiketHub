@@ -23,33 +23,17 @@ class Tickets extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    // protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
-
-    public $validationRules = [
-        'user_id' => [
+    protected $validationRules      = [
+        'full_name' => [
             'rules' => 'required',
             'errors' => [
-                'required' => 'Anda belum login',
+                'required' => 'Kolom nama lengkap harus diisi',
             ]
         ],
-        'schedule_id' => [
+        'phone_number' => [
             'rules' => 'required',
             'errors' => [
-                'required' => 'Pilih jadwal',
+                'required' => 'Kolom nomor telepon harus diisi',
             ]
         ],
         'card_identity' => [
@@ -65,5 +49,45 @@ class Tickets extends Model
             ]
         ],
     ];
+    protected $validationMessages   = [];
+    protected $skipValidation       = false;
+    protected $cleanValidationRules = true;
 
+    // Callbacks
+    protected $allowCallbacks = true;
+    protected $beforeInsert   = [];
+    protected $afterInsert    = [];
+    protected $beforeUpdate   = [];
+    protected $afterUpdate    = [];
+    protected $beforeFind     = [];
+    protected $afterFind      = [];
+    protected $beforeDelete   = [];
+    protected $afterDelete    = [];
+
+    public function getTicketById($user_id)
+    {
+        $builder = $this->table('tickets')
+            ->select('transportations.*,  routes.*, schedules.*, tickets.*')
+            ->join('schedules', 'schedules.id = tickets.schedule_id')
+            ->join('routes', 'routes.id = schedules.route_id')
+            ->join('transportations', 'transportations.id = schedules.transportation_id')
+            ->where('user_id', $user_id)
+            ->orderBy('booking_date', "DESC")
+            ->get();
+            
+        return $builder;
+    }
+
+    public function getSingleTicketById($id)
+    {
+        $builder = $this->table('tickets')
+            ->select('transportations.*,  routes.*, schedules.*, tickets.*')
+            ->join('schedules', 'schedules.id = tickets.schedule_id')
+            ->join('routes', 'routes.id = schedules.route_id')
+            ->join('transportations', 'transportations.id = schedules.transportation_id')
+            ->where('tickets.id', $id)
+            ->get();
+            
+        return $builder;
+    }
 }

@@ -1,51 +1,103 @@
 <?= $this->extend('layout/index.php') ?>
 
 <?= $this->section('title') ?>
-
+Pesan
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="hero min-h-screen bg-base-200 w-full">
-    <div class="hero-content flex justify-between w-full">
-        <div class="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-            <h1 class="text-3xl font-semibold text-center text-purple-700">DETAIL TIKET PESANAN</h1>
-            <form class="space-y-4 action = " pesan-tiket" method="post" id="form"">
-                <div>
-                    <label class=" label">
-                <span class="text-base label-text">Transportation Details</span>
-                </label>
-                <p>ID JADWAL = <?=$data['id']?></p>
-                <p>ID PENGGUNA = <?=$id_user?></p>
-        </div>
+<section class="py-8 px-16">
+    <div class=" min-h-screen box-shadow-1 rounded-2xl w-2/4 p-8 mx-auto">
         <div>
-            <label class="label">
-                <span class="text-base label-text">Name</span>
-            </label>
-            <input type="text" placeholder="Name" class="w-full input input-bordered input-primary" />
-        </div>
-        <div>
-            <label class="label">
-                <span class="text-base label-text">Telepon</span>
-            </label>
-            <input type="text" placeholder="Nomor Telepon" class="w-full input input-bordered input-primary" />
-        </div>
-        <div>
-            <label class="label">
-                <span class="text-base label-text">NIK</span>
-            </label>
-            <input type="text" placeholder="Masukkan NIK" class="w-full input input-bordered input-primary" />
-        </div>
-        <div>
-            <label class="label">
-                <span class="text-base label-text">Tanggal Lahir</span>
-            </label>
-            <input type="date" class="w-full input input-bordered input-primary" />
-        </div>
-        <div>
-            <button onclick="home=>save($id_user,$data['id'])" class=" btn btn-block btn-primary" ">Pesan</button>
+            <h1 class="text-2xl font-bold text-secondary">
+                <?= $data['operator'] ?>
+                <div class="badge badge-secondary"><?= $data['category'] ?></div>
+            </h1>
+            <p class= "text-neutral-500 mb-4"><?= $data['type'] ?></p>
+            <ul class="mb-8">
+                <li class="mb-2 flex items-center">
+                    <span><?= $data['origin_destination'] ?></span>
+                </li>
+                <li class="mb-2 flex items-center">
+                    <span><?= $data['date'] ?> <?= $data['time'] ?></span>
+                </li>
+                <li class="mb-2 flex items-center">
+                    <span>Rp<?= $data['price'] ?>,-</span>
+                </li>
+                <li class="mb-2 flex items-center">
+                    <span><?= $data['duration_trip'] ?></span>
+                </li>
+            </ul>
+            <?php $validation = session('validation') ?>
+            <form action="" method="post" id="form">
+                <?= csrf_field() ?>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="route_id">
+                        <span class="label-text text-black">Nama lengkap</span>
+                    </label>
+                    <input name="full_name" id="full_name" type="text" placeholder="Masukkan nama lengkap" value="<?= old('full_name') ?>" class="input input-bordered w-full <?= (isset($validation['full_name'])) ? "input-error" : ""?>"  autocomplete="off"/>
+                    <?php if (isset($validation['full_name'])): ?>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><?= $validation['full_name'] ?></span>
+                    </label>
+                    <?php endif ?>
+                </div>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="route_id">
+                        <span class="label-text text-black">Nomor Kartu Identitas</span>
+                    </label>
+                    <input name="card_identity" id="card_identity" type="number" placeholder="Masukkan nomor kartu identitas" value="<?= old('card_identity') ?>" class="input input-bordered w-full <?= (isset($validation['card_identity'])) ? "input-error" : ""?>"  autocomplete="off"/>
+                    <?php if (isset($validation['card_identity'])): ?>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><?= $validation['card_identity'] ?></span>
+                    </label>
+                    <?php endif ?>
+                </div>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="route_id">
+                        <span class="label-text text-black">Nomor telepon</span>
+                    </label>
+                    <input name="phone_number" id="phone_number" type="number" placeholder="Masukkan nomor telepon" value="<?= old('phone_number') ?>" class="input input-bordered w-full <?= (isset($validation['phone_number'])) ? "input-error" : ""?>"  autocomplete="off"/>
+                    <?php if (isset($validation['phone_number'])): ?>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><?= $validation['phone_number'] ?></span>
+                    </label>
+                    <?php endif ?>
+                </div>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="route_id">
+                        <span class="label-text text-black">Tanggal lahir</span>
+                    </label>
+                    <input name="birth_date" id="birth_date" type="date" placeholder="Masukkan tanggal lahir" value="<?= old('birth_date') ?>" class="input input-bordered w-full <?= (isset($validation['birth_date'])) ? "input-error" : ""?>"  autocomplete="off"/>
+                    <?php if (isset($validation['birth_date'])): ?>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><?= $validation['birth_date'] ?></span>
+                    </label>
+                    <?php endif ?>
+                    <input type="hidden" value="<?= $data['id'] ?>" name="schedule_id">
                 </div>
             </form>
+            <div class="flex justify-end mt-8 text-white">
+                <button onclick="confirmSubmit()" class="btn btn-primary">Pesan</button>
+            </div>
         </div>
     </div>
-</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+  function confirmSubmit() {
+    Swal.fire({
+      text: 'Anda yakin ingin memesan?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If user clicks "Yes, submit!" button
+        document.getElementById('form').submit(); // Submit the form
+      }
+    });
+  }
+</script>
 <?= $this->endSection() ?>
