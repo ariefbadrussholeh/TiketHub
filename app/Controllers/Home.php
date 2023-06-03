@@ -56,4 +56,39 @@ class Home extends BaseController
 
         return view('cari_tiket.php', $data);
     }
+
+    public function pesan_tiket($id_user,$id_schedules)
+    {
+        // id = $this->request->getVar('id');
+        $data = $this->schedulesModel->getScheduleById($id_schedules);
+        
+
+        return view('pesan_tiket.php', ['data' => $data,
+                                        'id_user' => $id_user]);
+    }
+
+    public function save($id_user,$id_schedules)
+    {   
+        if(!$this->validate($this->ticketsModel->getValidationRules()))
+        {
+            $validation = $this->validator->getErrors();
+            
+            return redirect()->to('/pesan-tiket')->withInput()->with('validation', $validation);
+        }
+
+        $this->ticketsModel->save([
+            'user_id'  => $id_user,
+            'schedule_id'  => $id_schedules,
+            'full_name'      => $this->request->getVar('type'),
+            'phone_number'  => $this->request->getVar('capacity'),
+            'card_identity'  => $this->request->getVar('capacity'),
+            'birth_date'  => $this->request->getVar('capacity'),
+        ]);
+        
+        session()->setFlashdata('message', $this->request->getVar('message'));
+
+        return redirect()->to('/index.php');
+    }
 }
+
+// 'user_id', 'schedule_id', 'payment_status', 'full_name', 'phone_number', 'card_identity', 'birth_date'
