@@ -8,6 +8,8 @@ use App\Models\Schedules;
 use App\Models\Tickets;
 use App\Models\Transportations;
 
+use \Dompdf\Dompdf;
+
 class UserController extends BaseController
 {
     protected $schedulesModel;
@@ -108,5 +110,21 @@ class UserController extends BaseController
         ];
 
         return view('detail_tiket.php', $data);
+    }
+
+    public function cetak_tiket($id)
+    {
+        $data = [
+            'data'  => $this->ticketsModel->getSingleTicketById($id)->getResult('array')[0],
+        ];
+
+        $dompdf = new Dompdf();
+        $html = view('cetak_tiket.php', $data);
+        $dompdf->load_html($html);
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+        $dompdf->stream();
+
+        // return view('cetak_tiket.php', $data);
     }
 }

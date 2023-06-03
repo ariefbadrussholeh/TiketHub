@@ -36,6 +36,7 @@ $routes->get('/pesan-tiket/(:num)','UserController::pesan_tiket/$1', ['filter' =
 $routes->post('/pesan-tiket/(:num)','UserController::save', ['filter' => 'login']);
 $routes->get('/cek-tiket','UserController::cek_tiket', ['filter' => 'login']);
 $routes->get('/cek-tiket/(:num)/detail','UserController::detail_tiket/$1', ['filter' => 'login']);
+$routes->get('/cek-tiket/(:num)/cetak','UserController::cetak_tiket/$1', ['filter' => 'login']);
 
 $routes->group('admin', ['filter' => 'loginAndRole:admin'], function ($routes) {
     // Admin Transportations
