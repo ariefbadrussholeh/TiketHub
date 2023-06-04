@@ -7,6 +7,8 @@ TiketHub is a web-based application developed for framework-based programming cl
 ## Team Members
 
 - [Arief Badrus Sholeh - 5025201228](https://github.com/ariefbadrussholeh)
+- [Muhammad Raihan Athallah - 5025201206](https://github.com/ariefbadrussholeh)
+- [Muhammad Fuad Salim - 5025201057](https://github.com/ariefbadrussholeh)
 
 ## How to Run
 
